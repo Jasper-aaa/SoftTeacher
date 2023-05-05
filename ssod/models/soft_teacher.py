@@ -21,7 +21,6 @@ class SoftTeacher(MultiSteamDetector):
         if train_cfg is not None:
             self.freeze("teacher")
             self.unsup_weight = self.train_cfg.unsup_weight
-
     def forward_train(self, img, img_metas, **kwargs):
         super().forward_train(img, img_metas, **kwargs)
         kwargs.update({"img": img})
@@ -120,16 +119,17 @@ class SoftTeacher(MultiSteamDetector):
                 student_info=student_info,
             )
         )
-        loss.update(
-            self.unsup_rcnn_reg_loss(
-                student_info["backbone_feature"],
-                student_info["img_metas"],
-                proposals,
-                pseudo_bboxes,
-                pseudo_labels,
-                student_info=student_info,
+        if self.train_cfg.use_unsup_reg_loss:
+            loss.update(
+                self.unsup_rcnn_reg_loss(
+                    student_info["backbone_feature"],
+                    student_info["img_metas"],
+                    proposals,
+                    pseudo_bboxes,
+                    pseudo_labels,
+                    student_info=student_info,
+                )
             )
-        )
         return loss
 
     def rpn_loss(

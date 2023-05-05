@@ -257,6 +257,7 @@ custom_hooks = [
     dict(type="NumClassCheckHook"),
     dict(type="WeightSummary"),
     dict(type="MeanTeacher", momentum=0.999, interval=1, warm_up=0),
+    dict(type="ThresAdjust",adjust_step=10000,decay_factor=0.033),
 ]
 evaluation = dict(type="SubModulesDistEvalHook", interval=4000)
 optimizer = dict(type="SGD", lr=0.01, momentum=0.9, weight_decay=0.0001)
@@ -273,7 +274,7 @@ log_config = dict(
         dict(
             type="WandbLoggerHook",
             init_kwargs=dict(
-                project="pre_release",
+                project="softTeacher",
                 name="${cfg_name}",
                 config=dict(
                     work_dirs="${work_dir}",

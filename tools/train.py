@@ -20,6 +20,9 @@ from ssod.datasets import build_dataset
 from ssod.utils import patch_config
 
 
+import warnings
+warnings.filterwarnings("ignore")
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a detector")
     parser.add_argument("config", help="train config file path")

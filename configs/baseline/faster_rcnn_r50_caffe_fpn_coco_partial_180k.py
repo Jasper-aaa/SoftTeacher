@@ -1,17 +1,17 @@
 _base_ = "base.py"
-fold = 1
-percent = 1
+fold = 2
+percent = 10
 data = dict(
-    samples_per_gpu=1,
-    workers_per_gpu=1,
+    samples_per_gpu=5,
+    workers_per_gpu=5,
     train=dict(
         ann_file="data/coco/annotations/semi_supervised/instances_train2017.${fold}@${percent}.json",
         img_prefix="data/coco/train2017/",
     ),
 )
-work_dir = "work_dirs/${cfg_name}/${percent}/${fold}"
+work_dir = "work_dirs/base_line_for_analyze/${cfg_name}/${percent}/${fold}"
 log_config = dict(
-    interval=50,
+    interval=100,
     hooks=[
         dict(type="TextLoggerHook"),
         dict(
